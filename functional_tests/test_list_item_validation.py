@@ -19,7 +19,6 @@ class ItemValidationTest(FunctionalTest):
             'Buy milk',
             self.browser.find_element_by_tag_name('body').text
         )
-
         # She tries again with some text for the item, which now works
         self.get_item_input_box().send_keys('Buy milk\n')
         self.check_for_row_in_list_table('1: Buy milk')
@@ -49,7 +48,7 @@ class ItemValidationTest(FunctionalTest):
 
         # She sees a helpful error message
         self.check_for_row_in_list_table('1: Buy wellies')
-        error = self.browser.find_element_by_css_selector('.has-error')
+        error = self.get_error_element()
         self.assertEqual(error.text, "You've already got this in your list")
 
 
@@ -60,13 +59,13 @@ class ItemValidationTest(FunctionalTest):
         self.check_for_row_in_list_table('1: Banter too thick')
         self.get_item_input_box().send_keys('Banter too thick\n')
 
-        error = self.browser.find_element_by_css_selector('.has-error')
+        error = self.get_error_element()
         self.assertTrue(error.is_displayed())
 
         # She starts typing in the input box to clear the error
         self.get_item_input_box().send_keys('a')
 
         # She is pleased to see that the error message disappears
-        error = self.browser.find_element_by_css_selector('.has-error')
+        error = self.get_error_element()
         self.assertFalse(error.is_displayed())
 
